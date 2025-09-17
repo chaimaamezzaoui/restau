@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Salcha</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      background: linear-gradient(to right, #0d47a1, #1976d2);
+      color: white;
+      padding: 30px 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2em;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 1.2em;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #1565c0;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.1em;
+      transition: 0.3s;
+      padding: 8px 15px;
+      border-radius: 5px;
+    }
+
+    nav a:hover {
+      background-color: white;
+      color: #1565c0;
+    }
+
+    /* Hero section */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1606755962773-8b2d5c4e4f0a') center/cover no-repeat;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: 2.5em;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    section {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    section h2 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+      color: #0d47a1;
+    }
+
+    section p {
+      font-size: 1.2em;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    /* معرض الصور */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="SALCHA.jpg" width="350" height="350" alt="Salcha">
+    <h1><i>SALCHA RESTO</i></h1>
+
+</header>
+<nav>
+  <a href="index.html">الرئيسية</a>
+  <a href="about.html">من نحن</a>
+  <a href="menu.html">القائمة</a>
+  <a href="contact.html">تواصل معنا</a>
+</nav>
+<!-- Hero Image -->
+<div class="hero">
+  <h2>احسن مطعم مغربي بأشهى الأطباق التقليدية المغربية و أيضا الأطباق الإيطالية بأجواء رالئعة</h2>
+</div>
+<!-- معرض الصور -->
+<section>
+  <h2>صور من مطعمنا</h2>
+  <div class="gallery">
+    <img src="twajen.jpg"  alt="بانيني">
+    <img src="salone.jpg" alt="المحل">
+    <img src="glisawtajin.jpg" alt="بانيني مشوي">
+    <img src="mnidar.jpg" alt="أجواء المطعم">
+  </div>
+</section>
+
+</body>
+</html>

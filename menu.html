@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>قائمة الطعام - Salcha</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 30px 0;
+      color: #0d47a1;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+      cursor: pointer;
+      padding-bottom: 15px;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card img.main {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card h3 {
+      margin: 10px 0 15px;
+      font-size: 1.5em;
+      color: #1565c0;
+    }
+
+    .items {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .item {
+      background: #f4f4f4;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.9em;
+      transition: background 0.3s;
+    }
+
+    .item:hover {
+      background: #e0e0e0;
+    }
+
+    .item img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 5px;
+    }
+
+    .quantity-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+      gap: 5px;
+    }
+
+    .quantity-controls button {
+      padding: 5px 10px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+
+    .quantity-controls input {
+      width: 40px;
+      text-align: center;
+      font-size: 0.9em;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 15px;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.9em;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #1da851;
+    }
+
+    #cartBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #cartBtn:hover {
+      background: #e64a19;
+    }
+  </style>
+</head>
+<body>
+  <h1>قائمة الطعام</h1>
+  <div class="menu">
+    
+    <!-- بانيني -->
+    <div class="card" id="paniniCard" onclick="toggleItems('paniniItems')">
+      <img class="main" src="panini2.jpg" alt="بانيني">
+      <div class="card-content">
+        <h3>🥪 بانيني (8 أنواع)</h3>
+        <div id="paniniItems" class="items"></div>
+      </div>
+    </div>
+    
+    <!-- بيتزا -->
+    <div class="card" id="pizzaCard" onclick="toggleItems('pizzaItems')">
+      <img class="main" src="pizzamargarita.jpg" alt="بيتزا">
+      <div class="card-content">
+        <h3>🍕 بيتزا (5 أنواع)</h3>
+        <div id="pizzaItems" class="items"></div>
+      </div>
+    </div>
+
+    <!-- أطباق مغربية -->
+    <div class="card" id="moroccanCard" onclick="toggleItems('moroccanItems')">
+      <img class="main" src="couscous.jpg" alt="أطباق مغربية">
+      <div class="card-content">
+        <h3>🇲🇦 أطباق مغربية تقليدية (6 أنواع)</h3>
+        <div id="moroccanItems" class="items"></div>
+      </div>
+    </div>
+
+    <!-- مشروبات -->
+    <div class="card" id="drinksCard" onclick="toggleItems('drinksItems')">
+      <img class="main" src="tea.jpg" alt="مشروبات">
+      <div class="card-content">
+        <h3>🥤 مشروبات (5 أنواع)</h3>
+        <div id="drinksItems" class="items"></div>
+      </div>
+    </div>
+
+    <!-- حلى -->
+    <div class="card" id="dessertCard" onclick="toggleItems('dessertItems')">
+      <img class="main" src="chocolat.jpg" alt="الحلى">
+      <div class="card-content">
+        <h3>🍰 الحلى (5 أنواع)</h3>
+        <div id="dessertItems" class="items"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <button id="cartBtn" onclick="sendCart()">إرسال الطلب على واتساب</button>
+
+  <script>
+    const cart = {};
+
+    const paniniTypes = [
+      {name: "panini dinde", price: 35, img:"panini2.jpg"},
+      {name: "panini viande hachee", price: 40, img:"paninikefta.jpg"},
+      {name: "panini thon", price: 38, img:"paninithon.jpg"},
+      {name: "panini mixte", price: 30, img:"pani.jpg"},
+      {name: "panini special", price: 32, img:"paninimohssine.jpg"},
+      {name: "panini thonfromage", price: 45, img:"paninithonfrmaj.jpg"},
+      {name: "panini saussisse", price: 42, img:"paninisaussisse.jpg"},
+      {name: "panini keftafromage", price: 50, img:"panini3.jpg"}
+    ];
+
+    const pizzaTypes = [
+      {name: "pizza margarita", price: 50, img:"pizzamargarita.jpg"},
+      {name: "pizza mixte", price: 55, img:"pizzamixte.jpg"},
+      {name: "pizza sucuk", price: 60, img:"pizzasucuk.jpg"},
+      {name: "pizza thon", price: 58, img:"pizzathon.jpg"},
+      {name: "pizza kefta", price: 65, img:"pizzakefta.jpg"}
+    ];
+
+    const moroccanTypes = [
+      {name:"couscous", price:70, img:"couscous.jpg"},
+      {name:"tajine kefta", price:80, img:"tajine.jpg"},
+      {name:"tajine le7m b lbr9o9", price:85, img:"tajinebr.jpg"},
+      {name:"djaj b dghmira", price:90, img:"djaj.jpg"},
+      {name:"rfissa", price:40, img:"rfissa.jpg"}
+    ];
+
+    const drinksTypes = [
+      {name:" moroccan tea", price:15, img:"tea.jpg"},
+      {name:"orange juice", price:20, img:"orange.jpg"},
+      {name: "ananas juice", price:20, img:"ananas.jpg"},
+      {name:"mango juice", price:10, img:"mango.jpg"},
+      {name:" avocado juice", price:15, img:"avoca.jpg"}
+    ];
+
+    const dessertTypes = [
+      {name:"ke3b ghzal", price:25, img:"ke3B.jpg"},
+      {name:"redvelvet", price:20, img:"redvelvet.jpg"},
+      {name:"chocolat cake", price:30, img:"chocolat.jpg"},
+      {name:"knafa", price:20, img:"kunefe.jpg"},
+      {name:"millefeuille", price:25, img:"mille.jpg"}
+    ];
+
+    function toggleItems(id) {
+      const container = document.getElementById(id);
+      if(container.style.display === "grid") {
+        container.style.display = "none";
+      } else {
+        if(container.innerHTML.trim() === "") {
+          let types;
+          switch(id) {
+            case "paniniItems": types = paniniTypes; break;
+            case "pizzaItems": types = pizzaTypes; break;
+            case "moroccanItems": types = moroccanTypes; break;
+            case "drinksItems": types = drinksTypes; break;
+            case "dessertItems": types = dessertTypes; break;
+          }
+          container.innerHTML = "";
+          types.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.innerHTML = `
+              <img src="${p.img}" alt="${p.name}">
+              ${p.name} - ${p.price} درهم<br>
+              <div class="quantity-controls">
+                <button onclick="changeQty(event, -1)">-</button>
+                <input type="text" value="1" readonly>
+                <button onclick="changeQty(event, 1)">+</button>
+              </div>
+              <a href="#" onclick="addToCart(event, '${p.name}', ${p.price})" class="btn">أضف إلى الطلب</`;container.appendChild(div);
+          });
+        }
+        container.style.display = "grid";
+      }
+    }
+
+    function changeQty(event, delta) {
+      event.stopPropagation();
+      const input = event.target.parentElement.querySelector('input');
+      let val = parseInt(input.value);
+      val += delta;
+      if(val < 1) val = 1;
+      input.value = val;
+    }
+
+    function addToCart(event, itemName, price) {
+      event.preventDefault();
+      event.stopPropagation();
+      const quantity = parseInt(event.target.parentElement.querySelector('input').value);
+      if(cart[itemName]) {
+        cart[itemName].qty += quantity;
+      } else {
+        cart[itemName] = {qty: quantity, price: price};
+      }
+      alert(itemName + " تمت إضافته إلى الطلب (" + cart[itemName].qty + ")");
+    }
+
+    function sendCart() {
+      if(Object.keys(cart).length === 0) {
+        alert("الرجاء إضافة عناصر إلى الطلب أولاً.");
+        return;
+      }
+      let message = "مرحباً، أريد الطلب:\n";
+      for(const item in cart) {
+        message += item + " x " + cart[item].qty + " - " + (cart[item].price * cart[item].qty) + " درهم\n";
+      }
+      const encoded = encodeURIComponent(message);
+      window.open("https://wa.me/212600000000?text=" + encoded, "_blank");
+    }
+  </script>
+</body>
+</html>
